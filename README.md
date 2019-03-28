@@ -3,3 +3,6 @@ WordPress plugin for Google Calendar widget
 
 ### TODO
 - API Client
+
+---
+© Asteriski ry
