@@ -39,17 +39,16 @@ class Next_Events extends WP_Widget {
         if ( ! empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
         }
-        if ( ! empty( $instance['apikey'] ) ) {
-            echo $args['before_apikey'] . apply_filters( 'widget_apikey', $instance['apikey'] ) . $args['after_apikey'];
-        }
         /* Widget content */
         ?>
         <div class="calendar-widget">
             <?php for ($i = 0; $i < 5; $i++) { ?>
-            <div class="calendar-event">
+            <div class="event-day">
                 <h4>Maanantai 13.08.</h4>
-                <h6>Esimerkkitapahtuma</h6>
-                <p><i class="fas fa-clock"></i> 12:00 - 14:00</p>
+                <div class="calendar-event">
+                    <p class="event-name"><i class="fas fa-calendar-alt"></i> Esimerkkitapahtuma</p>
+                    <p class="event-time"><i class="fas fa-clock"></i> 12:00 - 14:00</p>
+                </div>
             </div>
             <?php } ?>
         </div>
@@ -95,3 +94,17 @@ function register_next_events() {
 }
 
 add_action( 'widgets_init', 'register_next_events' );
+
+/**
+ * Load CSS
+ */
+function calendar_enqueue_css() {
+
+    /* Register */
+    wp_register_style( 'main-css', plugins_url( 'css/main.css', __FILE__ ) );
+
+    /* Enqueue */
+    wp_enqueue_style( 'main-css' );
+}
+
+add_action( 'wp_enqueue_scripts', 'calendar_enqueue_css' );
