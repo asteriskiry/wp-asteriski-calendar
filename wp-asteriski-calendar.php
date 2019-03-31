@@ -105,8 +105,9 @@ class Next_Events extends WP_Widget
             $oldDate = new Date('2000-01-01');
             foreach ($events as $event) {
                 $hasTime = true;
-                $date = new Date($event->start->dateTime);
-                if (empty($date)) {
+                $dateTemp = $event->start->dateTime;
+                $date = new Date($dateTemp);
+                if (empty($dateTemp)) {
                     $date = new Date($event->start->date);
                     $hasTime = false;
                 }
