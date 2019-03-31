@@ -40,7 +40,7 @@ class Next_Events extends WP_Widget
         $this->client->setScopes(
             "https://www.googleapis.com/auth/calendar.events.readonly"
         );
-        $this->client->setAuthConfig(__DIR__ . '/credentials.json');
+        $this->client->setAuthConfig(__DIR__ . '/credentials/credentials.json');
         parent::__construct(
             'next_events',
             'Tulevat tapahtumat',

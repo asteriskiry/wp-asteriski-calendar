@@ -1,4 +1,5 @@
 tags
 vendor/
-credentials.json
 token.json
+credentials/*
+!credentials/.gitkeep
