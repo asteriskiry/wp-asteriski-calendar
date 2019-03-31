@@ -1,1 +1,4 @@
 tags
+vendor/
+credentials.json
+token.json

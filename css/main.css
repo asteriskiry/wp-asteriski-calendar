@@ -1,5 +1,5 @@
 /**
- * WP Asteriski Calendar main stylesheet
+ * WP Asteriski Calendar stylesheet
  */
 
 .fa-clock {
@@ -12,20 +12,20 @@
 
 .calendar-event {
     border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
 }
 
 .calendar-event {
-    padding: 10px 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .calendar-event p {
     margin: 0;
 }
 
-.event-name {
-    font-weight: 700;
-    color: #000;
+.event.time {
+    margin-bottom: 5px;
 }
 
 .event-day h4 {

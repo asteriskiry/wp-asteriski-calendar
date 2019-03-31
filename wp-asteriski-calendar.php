@@ -10,20 +10,37 @@
  * License: MIT
  **/
 
-if ( ! defined( 'ABSPATH' ) ) {
+require_once 'vendor/autoload.php';
+
+if (! defined('ABSPATH')) {
     exit;
 }
+
+use Jenssegers\Date\Date;
 
 /**
  * Adds Next_Events widget.
  */
 
-class Next_Events extends WP_Widget {
+class Next_Events extends WP_Widget
+{
+    private $client;
 
     /**
      * Register widget with WordPress.
      */
-    function __construct() {
+    public function __construct()
+    {
+
+        /**
+         * Returns an authorized API client.
+         */
+        $this->client = new Google_Client();
+        //$this->client->setScopes(Google_Service_Calendar::CALENDAR_READONLY);
+        $this->client->setScopes(
+            "https://www.googleapis.com/auth/calendar.events.readonly"
+        );
+        $this->client->setAuthConfig(__DIR__ . '/credentials.json');
         parent::__construct(
             'next_events',
             'Tulevat tapahtumat',
@@ -32,79 +49,130 @@ class Next_Events extends WP_Widget {
     }
 
     /**
-     * Front-end display of widget.
+     * Backend widget form.
      */
-    public function widget( $args, $instance ) {
+    public function form($instance)
+    {
+        $title = ! empty($instance['title']) ? $instance['title'] : 'Tulevat tapahtumat';
+        $howmany = ! empty($instance['howmany']) ? $instance['howmany'] : ''; ?>
+<p> Otsikko:
+    <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php 'Otsikko: '; ?></label> 
+    <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+</p>
+<p>Monta tapahtumaa näytetään:
+    <label for="<?php echo esc_attr($this->get_field_id('howmany')); ?>"><?php 'Tapahtumien määrä: '; ?></label> 
+    <input class="widefat" id="<?php echo esc_attr($this->get_field_id('howmany')); ?>" name="<?php echo esc_attr($this->get_field_name('howmany')); ?>" type="text" value="<?php echo esc_attr($howmany); ?>">
+</p>
+<?php
+    }
+
+    /**
+     * Frontend display of widget.
+     */
+    public function widget($args, $instance)
+    {
         echo $args['before_widget'];
-        if ( ! empty( $instance['title'] ) ) {
-            echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+        if (! empty($instance['title'])) {
+            echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
         }
-        /* Widget content */
-        ?>
+
+        // Get the API client and construct the service object.
+        $service = new Google_Service_Calendar($this->client);
+
+        $calendarId = 'asteriskiry@gmail.com';
+        if (empty($instance['howmany'])) {
+            $howmany = 7;
+        } else {
+            $howmany = $instance['howmany'];
+        }
+        $optParams = array(
+            'maxResults' => $howmany,
+            'orderBy' => 'startTime',
+            'singleEvents' => true,
+            'timeMin' => date('c'),
+        );
+        $results = $service->events->listEvents($calendarId, $optParams);
+        $events = $results->getItems();
+
+        Date::setLocale('fi');
+
+        // Widget content ?>
         <div class="calendar-widget">
-            <?php for ($i = 0; $i < 5; $i++) { ?>
-            <div class="event-day">
-                <h4>Maanantai 13.08.</h4>
-                <div class="calendar-event">
-                    <p class="event-name"><i class="fas fa-calendar-alt"></i> Esimerkkitapahtuma</p>
-                    <p class="event-time"><i class="fas fa-clock"></i> 12:00 - 14:00</p>
-                </div>
-            </div>
-            <?php } ?>
-        </div>
         <?php
+        if (empty($events)) {
+            print "Tulevia tapahtumia ei löytynyt.\n";
+        } else {
+            $oldDate = new Date('2000-01-01');
+            foreach ($events as $event) {
+                $hasTime = true;
+                $date = new Date($event->start->dateTime);
+                if (empty($date)) {
+                    $date = new Date($event->start->date);
+                    $hasTime = false;
+                }
+                $day = ucfirst($date->format('l d.m.Y'));
+                $oldDay = ucfirst($oldDate->format('l d.m.Y'));
+                if ($oldDay != $day) {
+                    ?>
+                    <div class="event-day">
+                        <h4><?php echo $day ?></h4>
+                    <?php
+                } ?>
+                    <div class="calendar-event">
+                        <p class="event-name"><i class="fas fa-calendar-alt"></i> <?php echo $event->getSummary() ?></p>
+                <?php
+                if ($hasTime) {
+                    $startTime = $date->format('H:s');
+                    $eTime = new Date($event->end->dateTime);
+                    $endTime = $eTime->format('H:s'); ?>
+                        <p class="event-time"><i class="fas fa-clock"></i> <?php echo $startTime . ' - ' . $endTime . '</p>';
+                } ?>
+                    </div>
+                <?php
+                if ($oldDay != $day) {
+                    echo '</div>';
+                }
+                $oldDate = $date;
+            }
+        } ?>
+</div>
+<?php
 
         echo $args['after_widget'];
     }
 
     /**
-     * Back-end widget form.
-     */
-    public function form( $instance ) {
-        $title = ! empty( $instance['title'] ) ? $instance['title'] : 'Tulevat tapahtumat';
-        $apikey = ! empty( $instance['apikey'] ) ? $instance['apikey'] : '';
-?>
-<p> Otsikko:
-    <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php 'Otsikko: '; ?></label> 
-    <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
-</p>
-<p>Google API key:
-    <label for="<?php echo esc_attr( $this->get_field_id( 'apikey' ) ); ?>"><?php 'Google API key: '; ?></label> 
-    <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'apikey' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'apikey' ) ); ?>" type="text" value="<?php echo esc_attr( $apikey ); ?>">
-</p>
-<?php 
-    }
-
-    /**
      * Sanitize widget form values as they are saved.
      */
-    public function update( $new_instance, $old_instance ) {
+    public function update($new_instance, $old_instance)
+    {
         $instance = array();
-        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
-        $instance['apikey'] = ( ! empty( $new_instance['apikey'] ) ) ? sanitize_text_field( $new_instance['apikey'] ) : '';
+        $instance['title'] = (! empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['howmany'] = (! empty($new_instance['howmany'])) ? sanitize_text_field($new_instance['howmany']) : '';
 
         return $instance;
     }
-
 }
 
 // register Next_Events widget
-function register_next_events() {
-    register_widget( 'Next_Events' );
+function register_next_events()
+{
+    register_widget('Next_Events');
 }
 
-add_action( 'widgets_init', 'register_next_events' );
+add_action('widgets_init', 'register_next_events');
 
 /**
  * Load CSS
  */
-function calendar_enqueue_css() {
+function calendar_enqueue_css()
+{
 
     /* Register */
-    wp_register_style( 'main-css', plugins_url( 'css/main.css', __FILE__ ) );
+    wp_register_style('main-css', plugins_url('css/main.css', __FILE__));
 
     /* Enqueue */
-    wp_enqueue_style( 'main-css' );
+    wp_enqueue_style('main-css');
 }
 
-add_action( 'wp_enqueue_scripts', 'calendar_enqueue_css' );
+add_action('wp_enqueue_scripts', 'calendar_enqueue_css');
