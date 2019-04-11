@@ -61,7 +61,7 @@ class Next_Events extends WP_Widget
 </p>
 <p>Monta tapahtumaa näytetään:
     <label for="<?php echo esc_attr($this->get_field_id('howmany')); ?>"><?php 'Tapahtumien määrä: '; ?></label> 
-    <input class="widefat" id="<?php echo esc_attr($this->get_field_id('howmany')); ?>" name="<?php echo esc_attr($this->get_field_name('howmany')); ?>" type="text" value="<?php echo esc_attr($howmany); ?>">
+    <input class="widefat" id="<?php echo esc_attr($this->get_field_id('howmany')); ?>" name="<?php echo esc_attr($this->get_field_name('howmany')); ?>" type="number" value="<?php echo esc_attr($howmany); ?>">
 </p>
 <?php
     }
