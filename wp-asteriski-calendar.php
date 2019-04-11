@@ -43,7 +43,7 @@ class Next_Events extends WP_Widget
         $this->client->setAuthConfig(__DIR__ . '/credentials/credentials.json');
         parent::__construct(
             'next_events',
-            'Tulevat tapahtumat',
+            'Asteriski Tulevat tapahtumat',
             array( 'description' => 'Widgetti joka näyttää tulevat tapahtumat Google kalenterista.' )
         );
     }
