@@ -123,9 +123,9 @@ class Next_Events extends WP_Widget
                         <p class="event-name"><i class="fas fa-calendar-alt"></i> <?php echo $event->getSummary() ?></p>
                 <?php
                 if ($hasTime) {
-                    $startTime = $date->format('H:s');
+                    $startTime = $date->format('H:i');
                     $eTime = new Date($event->end->dateTime);
-                    $endTime = $eTime->format('H:s'); ?>
+                    $endTime = $eTime->format('H:i'); ?>
                         <p class="event-time"><i class="fas fa-clock"></i> <?php echo $startTime . ' - ' . $endTime . '</p>';
                 } ?>
                     </div>
