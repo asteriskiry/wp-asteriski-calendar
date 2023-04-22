@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2023-04-22 17:23+0300\n"
+"PO-Revision-Date: 2023-04-22 17:24+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: .\n"
+
+#: shortcode.php:50
+msgid "Upcoming events not found."
+msgstr "Tulevia tapahtumia ei löytynyt."
+
+#: widget.php:16
+#, fuzzy
+msgid "Asteriski's upcoming events"
+msgstr "Asteriskin tulevat tapahtumat"
+
+#: widget.php:17
+#, fuzzy
+msgid "Widget which shows the upcoming events from Google Calendar."
+msgstr "Widget, joka näyttää tulevat tapahtumat Google-kalenterista."
+
+#: widget.php:26
+msgid "Upcoming events"
+msgstr "Tulevat tapahtumat"
+
+#: widget.php:30
+msgid "Title:"
+msgstr "Otsikko:"
+
+#: widget.php:34
+msgid "Amount:"
+msgstr "Summa:"
+
+#. Plugin Name of the plugin/theme
+#, fuzzy
+msgid "WP Asteriski Calendar"
+msgstr "WP Asteriski kalenteri"
+
+#. Plugin URI of the plugin/theme
+#, fuzzy
+msgid "https://asteriski.fi"
+msgstr "https://asteriski.fi"
+
+#. Description of the plugin/theme
+#, fuzzy
+msgid "Google kalenterista \"Tulevat tapahtumat\""
+msgstr "Google kalenterista \"Tulevat tapahtumat\""
+
+#. Author of the plugin/theme
+#, fuzzy
+msgid "Maks Turtiainen, Asteriski ry"
+msgstr "Maks Turtiainen, Asteriski ry"
+
+#. Author URI of the plugin/theme
+#, fuzzy
+msgid "https://github.com/asteriskiry"
+msgstr "https://github.com/asteriskiry"
