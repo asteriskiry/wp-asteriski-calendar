@@ -10,17 +10,14 @@
     color: #35B233;
 }
 
-.calendar-event {
-    border-bottom: 1px solid #ddd;
-}
-
-.calendar-event {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
+.event-day:not(:first-of-type) h4 {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding: 10px 5px 0;
 }
 
 .calendar-event p {
+    line-height: 1.6;
     margin: 0;
 }
 
@@ -29,6 +26,8 @@
 }
 
 .event-day h4 {
-    font-size: 1.3rem;
-    margin: 0;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #080708;
+    line-height: 1;
 }

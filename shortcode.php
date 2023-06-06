@@ -14,7 +14,7 @@ add_shortcode('asteriski-next-events', 'display_asteriski_next_events');
  * @noinspection PhpUnusedParameterInspection
  * @throws \Google\Exception
  */
-function display_asteriski_next_events( $atts = array(), $preview_settings = false ):false|string {
+function display_asteriski_next_events( $atts = array(), $preview_settings = false ) {
     /**
      * Returns an authorized API client.
      */
@@ -58,8 +58,8 @@ foreach ($events as $event) {
         $date = new Date($event->start->date);
         $hasTime = false;
     }
-    $day = ucfirst($date->format('l d.m.Y'));
-    $oldDay = ucfirst($oldDate->format('l d.m.Y'));
+    $day = ucfirst($date->format('l d.m.'));
+    $oldDay = ucfirst($oldDate->format('l d.m.'));
 if ($oldDay != $day) {
     ?>
     <div class="event-day">

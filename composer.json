@@ -1,6 +1,9 @@
 {
+    "config": {
+        "platform-check": false
+    },
     "require": {
-        "google/apiclient": "^2.10.1",
-        "jenssegers/date": "^3.5"
+        "google/apiclient": "^2.15.0",
+        "jenssegers/date": "^4.0"
     }
 }

@@ -1,5 +1,5 @@
 # WP Asteriski Calendar
-Contributors: Roosa Virta
+Contributors: Maks Turtiainen, Roosa Virta
 Tags: block
 Tested up to: 6.1
 Stable tag: 0.1.0
@@ -11,7 +11,7 @@ WP Asteriski Calendar is a WordPress plugin that displays upcoming events from a
 ## Requirements
 
 - WordPress 5.8 or later
-- PHP 7.0 or later
+- PHP 7.4 or later
 - credentials.json with valid credentials for Google Calendar.
 
 ## Installation
