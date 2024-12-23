@@ -31,6 +31,6 @@ jobs:
               REMOTE_USER: ${{ secrets.DEPLOYUSER_USER }}
               REMOTE_PORT: ${{ secrets.DEPLOYUSER_PORT }}
               TARGET: "/srv/www/www.asteriski.fi/wp-content/plugins/wp-asteriski-calendar/"
-              EXCLUDE: "/.git/,/credentials/*"
+              EXCLUDE: "/.git/,/credentials/"
            with:
              args: "-avz --delete --chmod=ug=rwx,o=rx --chown=github-deploy:www-data --progress"
