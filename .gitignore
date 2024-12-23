@@ -3,3 +3,5 @@ vendor/
 token.json
 credentials/*
 !credentials/.gitkeep
+
+composer.lock
